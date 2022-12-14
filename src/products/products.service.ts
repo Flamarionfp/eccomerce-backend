@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import { AppError } from './App.error';
-import { PrismaService } from './prisma.service';
+import { AppError } from '../App.error';
+import { PrismaService } from '../prisma.service';
 
 interface Product {
   id?: string;
@@ -54,74 +54,34 @@ export class ProductsService {
   getProduct = async (data: SearchByProps): Promise<Product[]> => {
     if (!data) throw new AppError('Product not found');
 
-    if (data.category) {
-      const product = await this.prisma.product.findMany({
-        where: {
-          category: data.category,
-        },
-        select: {
-          category: true,
-          id: true,
-          listPrice: true,
-          productImage: true,
-          productName: true,
-          salePrice: true,
-          stockQuantity: true,
-        },
-      });
+    const queryEntries = Object.entries(data);
+    let formattedQuery = {};
 
-      return product;
-    }
-
-    const product = await this.prisma.product.findMany({
-      where: {
-        id: data.id,
-      },
-      select: {
-        category: true,
-        id: true,
-        listPrice: true,
-        productImage: true,
-        productName: true,
-        salePrice: true,
-        stockQuantity: true,
-      },
+    queryEntries.forEach(([key, value]) => {
+      if (value) {
+        formattedQuery = {
+          ...formattedQuery,
+          [key]: {
+            equals: value,
+            mode: 'insensitive',
+          },
+        };
+      }
     });
 
-    if (!product) throw new AppError('Product not found');
+    const products = await this.prisma.product.findMany({
+      where: formattedQuery,
+    });
 
-    return product;
+    if (!products) throw new AppError('Product not found');
+
+    return products;
   };
 
   getAllProducts = async () => {
     const products = await this.prisma.product.findMany({});
 
     if (!products) throw new AppError('There is not product found');
-
-    return products;
-  };
-
-  getProductsByCategory = async (category: string): Promise<Product[]> => {
-    console.log(
-      '🚀 ~ file: products.service.ts:73 ~ ProductsService ~ getProductsByCategory= ~ category',
-      category,
-    );
-    const products = await this.prisma.product.findMany({
-      where: {
-        category: category,
-      },
-      select: {
-        id: true,
-        category: true,
-        listPrice: true,
-        salePrice: true,
-        productImage: true,
-        productName: true,
-        stockQuantity: true,
-      },
-    });
-
-    if (!products) throw new AppError('There is no products for this category');
 
     return products;
   };

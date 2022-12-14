@@ -28,14 +28,8 @@ export class ProductsController {
 
   @Get()
   async getProduct(@Query() query) {
-    console.log(
-      '🚀 ~ file: products.controller.ts:31 ~ ProductsController ~ getProduct ~ query',
-      query,
-    );
     try {
-      const { id, category } = query;
-
-      const product = await this.productsService.getProduct(id ? id : category);
+      const product = await this.productsService.getProduct(query);
 
       return product;
     } catch (err) {
@@ -47,6 +41,10 @@ export class ProductsController {
   async getAllProduct() {
     try {
       const products = await this.productsService.getAllProducts();
+      console.log(
+        '🚀 ~ file: products.controller.ts:58 ~ ProductsController ~ getAllProduct ~ products',
+        products,
+      );
 
       return products;
     } catch (err) {
