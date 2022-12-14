@@ -8,9 +8,19 @@ datasource db {
 }
 
 model User {
-  id String @id @unique @default(uuid())
-  email String @unique
-  name String
-  password String
+  id        String   @id @unique @default(uuid())
+  email     String   @unique
+  name      String
+  password  String
   createdAt DateTime @default(now())
+}
+
+model Product {
+  id            String   @id @unique @default(uuid())
+  productName   String
+  category      String
+  listPrice     Int
+  salePrice     Int
+  stockQuantity Int
+  productImage  String[]
 }
