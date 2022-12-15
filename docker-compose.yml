@@ -3,7 +3,7 @@ version: '3.7'
 services:
   database:
     image: postgres
-    container_name: auth_database
+    container_name: admin_eccomerce_db
     restart: always
     ports:
       - 5432:5432

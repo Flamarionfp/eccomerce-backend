@@ -1,16 +1,7 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Post,
-  Query,
-  Response,
-} from '@nestjs/common';
-import { AppService } from './app.service';
-import { AuthenticateBody } from './authenticate-body';
-import { RegisterBody } from './register-body';
-import { Response as Res } from 'express';
+import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import { AppService } from '../../../app.service';
+import { AuthenticateBody } from '../dtos/authenticate-body';
+import { RegisterBody } from '../dtos/register-body';
 
 interface GetUsersQuery {
   id: string;
@@ -18,7 +9,7 @@ interface GetUsersQuery {
   email: string;
 }
 @Controller('user')
-export class AppController {
+export class UserController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
@@ -52,6 +43,8 @@ export class AppController {
 
   @Post('/auth')
   async authenticate(@Body() body: AuthenticateBody) {
+    console.log('entrei no auth', body);
+
     try {
       const { email, password } = body;
 
@@ -59,6 +52,7 @@ export class AppController {
 
       return { ...auth };
     } catch (err) {
+      console.log('err', err);
       return err;
     }
   }
