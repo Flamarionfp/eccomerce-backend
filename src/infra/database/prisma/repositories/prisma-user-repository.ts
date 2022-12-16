@@ -14,7 +14,7 @@ export class PrismaUserRepository implements UserRepository {
     const userExists = await this.prismaService.user.findFirst({
       where: {
         email: {
-          equals: email,
+          equals: email.value,
           mode: 'insensitive',
         },
       },
@@ -22,12 +22,12 @@ export class PrismaUserRepository implements UserRepository {
 
     if (userExists) throw new Error('User already exists');
 
-    const passwordHash = await hash(password, 8);
+    const passwordHash = await hash(password.value, 8);
 
     await this.prismaService.user.create({
       data: {
-        email,
-        name,
+        email: email.value,
+        name: name.value,
         password: passwordHash,
       },
     });
