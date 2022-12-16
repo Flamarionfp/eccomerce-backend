@@ -3,7 +3,7 @@ import { compare, hash } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import { AppError } from './App.error';
 
-import { PrismaService } from './prisma.service';
+import { PrismaService } from './infra/database/prisma/prisma.service';
 
 interface RegisterProps {
   email: string;
@@ -44,9 +44,10 @@ export class AppService {
   getUsers = async (query: QueryProps) => {
     const queryEntries = Object.entries(query);
     let formattedQuery = {};
+    const allowedQueries = ['id', 'name', 'email'];
 
     queryEntries.forEach(([key, value]) => {
-      if (value) {
+      if (value && allowedQueries.includes(key)) {
         formattedQuery = {
           ...formattedQuery,
           [key]: {
