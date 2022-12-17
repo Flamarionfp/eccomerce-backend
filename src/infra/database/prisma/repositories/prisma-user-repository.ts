@@ -1,12 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/app/entities/user';
 import { UserRepository } from 'src/app/repositories/user-repository';
 import { PrismaService } from '../prisma.service';
 import { compare, hash } from 'bcryptjs';
 import { UserEmail } from 'src/app/entities/user/user-email';
 import { UserPassword } from 'src/app/entities/user/user-password';
-import { AuthResponse } from 'src/types';
+import { AuthResponse, ListUsersResponse, UserQueryProps } from 'src/types';
 import { sign, SignOptions } from 'jsonwebtoken';
+import { queryBy } from 'src/helpers';
+import { User } from 'src/app/entities/user';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
@@ -34,6 +35,31 @@ export class PrismaUserRepository implements UserRepository {
         password: passwordHash,
       },
     });
+  }
+
+  async list(query: UserQueryProps): Promise<ListUsersResponse> {
+    const allowedQueries = ['id', 'name', 'email'];
+
+    const formattedQuery = queryBy<{
+      id?: string;
+      name?: string;
+      email?: string;
+    }>(query, allowedQueries);
+
+    const users = await this.prismaService.user.findMany({
+      where: formattedQuery,
+    });
+
+    const formattedUsers = users.map((user) => {
+      return {
+        name: user.name,
+        email: user.email,
+        id: user.id,
+        createdAt: user.createdAt,
+      };
+    });
+
+    return formattedUsers;
   }
 
   async auth(email: UserEmail, password: UserPassword): Promise<AuthResponse> {
