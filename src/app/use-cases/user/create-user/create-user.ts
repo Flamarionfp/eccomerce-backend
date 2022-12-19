@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { UserEmail } from '../../entities/user/user-email';
-import { UserName } from '../../../app/entities/user/user-name';
-import { UserPassword } from '../../entities/user/user-password';
-import { User } from '../../entities/user';
-import { UserRepository } from '../../repositories/user-repository';
+import { UserEmail } from '../../../entities/user/user-email';
+import { UserName } from '../../../../app/entities/user/user-name';
+import { UserPassword } from '../../../entities/user/user-password';
+import { User } from '../../../entities/user';
+import { UserRepository } from '../../../repositories/user-repository';
 interface CreateUserRequest {
   name: string;
   email: string;

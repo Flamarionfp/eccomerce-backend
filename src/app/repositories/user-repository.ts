@@ -7,6 +7,7 @@ import { UserQueryProps } from '../../types';
 export abstract class UserRepository {
   abstract create(user: User): Promise<void>;
   abstract list(query: UserQueryProps): Promise<ListUsersResponse>;
+  abstract delete(id: string): Promise<void>;
   abstract auth(
     email: UserEmail,
     password: UserPassword,

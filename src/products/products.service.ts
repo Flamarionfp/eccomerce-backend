@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { AppError } from '../App.error';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../infra/database/prisma/prisma.service';
 
 interface Product {
   id?: string;

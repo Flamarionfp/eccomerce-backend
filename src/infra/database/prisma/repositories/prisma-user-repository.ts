@@ -62,6 +62,22 @@ export class PrismaUserRepository implements UserRepository {
     return formattedUsers;
   }
 
+  async delete(id: string): Promise<void> {
+    const user = await this.prismaService.user.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!user) throw new Error('User not found');
+
+    await this.prismaService.user.delete({
+      where: {
+        id,
+      },
+    });
+  }
+
   async auth(email: UserEmail, password: UserPassword): Promise<AuthResponse> {
     const user = await this.prismaService.user.findFirst({
       where: {
@@ -83,7 +99,7 @@ export class PrismaUserRepository implements UserRepository {
       expiresIn: '3600',
     };
 
-    const token = sign(null, process.env.SECRET, authOptions);
+    const token = sign({ user }, process.env.SECRET, authOptions);
 
     const authResponse = {
       token,

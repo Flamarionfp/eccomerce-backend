@@ -1,8 +1,8 @@
-import { User } from '../../entities/user';
-import { UserEmail } from '../../entities/user/user-email';
-import { UserName } from '../../entities/user/user-name';
-import { UserPassword } from '../../entities/user/user-password';
-import { InMemoryUserRepository } from '../../../../test/in-memory-user-repository';
+import { User } from '../../../entities/user';
+import { UserEmail } from '../../../entities/user/user-email';
+import { UserName } from '../../../entities/user/user-name';
+import { UserPassword } from '../../../entities/user/user-password';
+import { InMemoryUserRepository } from '../../../../../test/in-memory-user-repository';
 
 describe('Auth user Use Case', () => {
   const userRepository = new InMemoryUserRepository();
