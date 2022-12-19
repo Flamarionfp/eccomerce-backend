@@ -1,6 +1,6 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { ListUsers } from '../../../../app/use-cases/user/list-users/list-users';
-import { UserQueryProps } from '../../../../types/user';
+import { ListUsers } from '@/app/use-cases';
+import { UserQueryProps } from '@/types';
 
 @Controller('user')
 export class ListUsersController {

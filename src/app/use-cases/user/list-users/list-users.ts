@@ -1,5 +1,5 @@
-import { UserRepository } from '../../../repositories/user-repository';
-import { UserQueryProps } from '../../../../types/user';
+import { UserRepository } from '@/app/repositories/user-repository';
+import { UserQueryProps } from '@/types';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

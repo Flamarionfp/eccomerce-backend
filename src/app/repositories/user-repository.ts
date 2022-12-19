@@ -1,9 +1,5 @@
-import { AuthResponse, ListUsersResponse } from '../../types';
-import { User } from '../entities/user/user';
-import { UserEmail } from '../entities/user/user-email';
-import { UserPassword } from '../entities/user/user-password';
-import { UserQueryProps } from '../../types';
-
+import { AuthResponse, ListUsersResponse, UserQueryProps } from '@/types';
+import { User, UserEmail, UserPassword } from '@/app/entities';
 export abstract class UserRepository {
   abstract create(user: User): Promise<void>;
   abstract list(query: UserQueryProps): Promise<ListUsersResponse>;

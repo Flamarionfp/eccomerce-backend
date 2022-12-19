@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { RegisterBody } from '../../dtos/register-body';
-import { CreateUser } from '../../../../app/use-cases/user/create-user/create-user';
+import { RegisterBody } from '@/infra/http';
+import { CreateUser } from '@/app/use-cases';
 
 @Controller('user')
 export class CreateUserController {

@@ -2,12 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { UserRepository } from 'src/app/repositories/user-repository';
 import { PrismaService } from '../prisma.service';
 import { compare, hash } from 'bcryptjs';
-import { UserEmail } from 'src/app/entities/user/user-email';
-import { UserPassword } from 'src/app/entities/user/user-password';
-import { AuthResponse, ListUsersResponse, UserQueryProps } from 'src/types';
+import { UserPassword, UserEmail } from '@/app/entities';
+import { AuthResponse, ListUsersResponse, UserQueryProps } from '@/types';
 import { sign, SignOptions } from 'jsonwebtoken';
-import { queryBy } from 'src/helpers';
-import { User } from 'src/app/entities/user';
+import { queryBy } from '@/helpers';
+import { User } from '@/app/entities';
 
 @Injectable()
 export class PrismaUserRepository implements UserRepository {

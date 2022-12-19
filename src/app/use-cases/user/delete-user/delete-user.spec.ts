@@ -1,8 +1,5 @@
 import { InMemoryUserRepository } from '../../../../../test/in-memory-user-repository';
-import { User } from '../../../entities/user';
-import { UserName } from '../../../entities/user/user-name';
-import { UserEmail } from '../../../entities/user/user-email';
-import { UserPassword } from '../../../entities/user/user-password';
+import { User, UserPassword, UserEmail, UserName } from '@/app/entities';
 describe('Delete User Use Case', () => {
   const userRepository = new InMemoryUserRepository();
 

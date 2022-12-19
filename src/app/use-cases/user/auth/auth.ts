@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { UserEmail } from '../../../entities/user/user-email';
-import { UserPassword } from '../../../entities/user/user-password';
-import { UserRepository } from '../../../repositories/user-repository';
-import { AuthRequest } from 'src/types';
+import { UserPassword, UserEmail } from '@/app/entities';
+import { UserRepository } from '@/app/repositories/user-repository';
+import { AuthRequest } from '@/types';
 
 @Injectable()
 export class Auth {

@@ -1,10 +1,8 @@
-import { User } from 'src/app/entities/user';
-import { UserEmail } from 'src/app/entities/user/user-email';
-import { UserPassword } from 'src/app/entities/user/user-password';
-import { UserRepository } from 'src/app/repositories/user-repository';
-import { AuthResponse, UserQueryProps } from 'src/types';
+import { User, UserEmail, UserPassword } from '@/app/entities';
+import { UserRepository } from '@/app/repositories/user-repository';
+import { AuthResponse, UserQueryProps } from '@/types';
 import { isEmpty } from 'radash';
-import { ListUsersResponse } from '../src/types';
+import { ListUsersResponse } from '@/types';
 export class InMemoryUserRepository implements UserRepository {
   public users: User[] = [];
 

@@ -1,5 +1,5 @@
 import { Controller, Delete, Param } from '@nestjs/common';
-import { DeleteUser } from '../../../../app/use-cases/user/delete-user/delete-user';
+import { DeleteUser } from '@/app/use-cases';
 
 interface DeleteUserParams {
   id: string;

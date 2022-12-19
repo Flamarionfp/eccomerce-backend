@@ -1,6 +1,6 @@
-import { Auth } from '../../../../app/use-cases/user/auth/auth';
+import { Auth } from '@/app/use-cases';
 import { Body, Controller, Post } from '@nestjs/common';
-import { AuthRequest } from '../../../../types/user';
+import { AuthRequest } from '@/types';
 @Controller('user')
 export class AuthController {
   constructor(private readonly auth: Auth) {}
