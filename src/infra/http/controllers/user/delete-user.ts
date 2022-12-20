@@ -1,5 +1,14 @@
-import { Controller, Delete, Param } from '@nestjs/common';
+import {
+  Controller,
+  Delete,
+  HttpStatus,
+  Param,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { DeleteUser } from '@/app/use-cases';
+import { Request, Response } from 'express';
+import { HttpError } from '../../HttpError';
 
 interface DeleteUserParams {
   id: string;
@@ -10,16 +19,21 @@ export class DeleteUserController {
   constructor(private readonly deleteUser: DeleteUser) {}
 
   @Delete(':id')
-  async handle(@Param() params: DeleteUserParams) {
+  async handle(
+    @Param() params: DeleteUserParams,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
     try {
       const { id } = params;
 
-      const users = await this.deleteUser.execute(id);
+      await this.deleteUser.execute(id);
 
-      return users;
+      return response
+        .status(HttpStatus.OK)
+        .json({ message: 'User deleted successfully' });
     } catch (err) {
-      console.log(err);
-      return err;
+      return new HttpError(err).emit(request, response);
     }
   }
 }

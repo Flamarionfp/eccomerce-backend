@@ -7,7 +7,8 @@ import { AuthResponse, ListUsersResponse, UserQueryProps } from '@/types';
 import { sign, SignOptions } from 'jsonwebtoken';
 import { queryBy } from '@/helpers';
 import { User } from '@/app/entities';
-
+import { AppError } from '@/App.error';
+import { ListUsersData } from '@/types';
 @Injectable()
 export class PrismaUserRepository implements UserRepository {
   constructor(private readonly prismaService: PrismaService) {}
@@ -23,7 +24,7 @@ export class PrismaUserRepository implements UserRepository {
       },
     });
 
-    if (userExists) throw new Error('User already exists');
+    if (userExists) throw new AppError('User already exists');
 
     const passwordHash = await hash(password.value, 8);
 
@@ -45,7 +46,7 @@ export class PrismaUserRepository implements UserRepository {
       email?: string;
     }>(query, allowedQueries);
 
-    const users = await this.prismaService.user.findMany({
+    const users: ListUsersData[] = await this.prismaService.user.findMany({
       where: formattedQuery,
     });
 
@@ -68,7 +69,7 @@ export class PrismaUserRepository implements UserRepository {
       },
     });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new AppError('User not found');
 
     await this.prismaService.user.delete({
       where: {
@@ -87,11 +88,11 @@ export class PrismaUserRepository implements UserRepository {
       },
     });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new AppError('User not found');
 
     const passwordMatch = await compare(password.value, user.password);
 
-    if (!passwordMatch) throw new Error('Wrong credentials');
+    if (!passwordMatch) throw new AppError('Wrong credentials');
 
     const authOptions: SignOptions = {
       subject: user.id,

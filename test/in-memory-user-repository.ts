@@ -3,6 +3,7 @@ import { UserRepository } from '@/app/repositories/user-repository';
 import { AuthResponse, UserQueryProps } from '@/types';
 import { isEmpty } from 'radash';
 import { ListUsersResponse } from '@/types';
+import { AppError } from '@/App.error';
 export class InMemoryUserRepository implements UserRepository {
   public users: User[] = [];
 
@@ -28,7 +29,7 @@ export class InMemoryUserRepository implements UserRepository {
       const allowedQueries = ['id', 'name', 'email'];
 
       if (!Object.keys(query).every((key) => allowedQueries.includes(key))) {
-        throw new Error('Invalid query');
+        throw new AppError('Invalid query');
       }
 
       const filteredUsers = this.users
@@ -49,7 +50,7 @@ export class InMemoryUserRepository implements UserRepository {
     const userIndex = this.users.findIndex((user) => user.id === id);
 
     if (userIndex === -1) {
-      throw new Error('User not found');
+      throw new AppError('User not found');
     }
 
     this.users.splice(userIndex, 1);
@@ -63,11 +64,11 @@ export class InMemoryUserRepository implements UserRepository {
     );
 
     if (!user) {
-      throw new Error('User not found');
+      throw new AppError('User not found');
     }
 
     if (user.password.value !== password.value) {
-      throw new Error('Wrong credentials');
+      throw new AppError('Wrong credentials');
     }
 
     const token = 'example-token';

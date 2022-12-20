@@ -1,3 +1,5 @@
+import { AppError } from '@/App.error';
+
 export class UserEmail {
   private readonly email: string;
 
@@ -13,7 +15,7 @@ export class UserEmail {
   constructor(text: string) {
     const isValidEmail = this.verifyEmailPattern(text);
 
-    if (!isValidEmail) throw new Error('Invalid email');
+    if (!isValidEmail) throw new AppError('Invalid email');
 
     this.email = text;
   }
