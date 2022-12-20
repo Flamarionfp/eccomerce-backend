@@ -1,27 +1,33 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, Req, Res, HttpStatus } from '@nestjs/common';
 import { RegisterBody } from '@/infra/http';
 import { CreateUser } from '@/app/use-cases';
+import { HttpError } from '@/infra/http/HttpError';
+import { Request, Response } from 'express';
 
 @Controller('user')
 export class CreateUserController {
   constructor(private readonly createUser: CreateUser) {}
 
   @Post()
-  async handle(@Body() body: RegisterBody) {
+  async handle(
+    @Body() body: RegisterBody,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
     try {
       const { name, email, password } = body;
 
-      const response = await this.createUser.execute({ name, email, password });
-      const { user } = response;
+      const { user } = await this.createUser.execute({ name, email, password });
 
-      return {
+      const userData = {
         id: user.id,
-        name: user.name,
-        email: user.email,
+        name: user.name.value,
+        email: user.email.value,
       };
+
+      return response.status(HttpStatus.CREATED).json({ user: userData });
     } catch (err) {
-      console.log(err);
-      return err;
+      return new HttpError(err).emit(request, response);
     }
   }
 }

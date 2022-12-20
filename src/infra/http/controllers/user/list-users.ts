@@ -1,20 +1,25 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, HttpStatus, Query, Req, Res } from '@nestjs/common';
 import { ListUsers } from '@/app/use-cases';
 import { UserQueryProps } from '@/types';
+import { Request, Response } from 'express';
+import { HttpError } from '../../HttpError';
 
 @Controller('user')
 export class ListUsersController {
   constructor(private readonly listsUsers: ListUsers) {}
 
   @Get()
-  async handle(@Query() query: UserQueryProps) {
+  async handle(
+    @Query() query: UserQueryProps,
+    @Req() request: Request,
+    @Res() response: Response,
+  ) {
     try {
       const users = await this.listsUsers.execute(query);
 
-      return users;
+      return response.status(HttpStatus.OK).json({ users });
     } catch (err) {
-      console.log(err);
-      return err;
+      return new HttpError(err).emit(request, response);
     }
   }
 }

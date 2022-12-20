@@ -18,7 +18,7 @@ export interface AuthResponse {
   };
 }
 
-interface ListUsersData {
+export interface ListUsersData {
   id: string;
   name: string;
   email: string;

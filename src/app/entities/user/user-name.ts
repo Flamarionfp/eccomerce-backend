@@ -1,3 +1,5 @@
+import { AppError } from '@/App.error';
+
 export class UserName {
   private readonly name: string;
 
@@ -9,10 +11,10 @@ export class UserName {
     const splitedName = text.split(' ');
 
     if (splitedName.some((name) => name.length < 2))
-      throw new Error('Invalid name');
+      throw new AppError('Invalid name');
 
     if (splitedName.length < 2)
-      throw new Error('You must inform your first and last name');
+      throw new AppError('You must inform your first and last name');
 
     this.name = text;
   }

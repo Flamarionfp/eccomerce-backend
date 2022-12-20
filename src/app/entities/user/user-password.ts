@@ -1,3 +1,5 @@
+import { AppError } from '@/App.error';
+
 export class UserPassword {
   private readonly password: string;
 
@@ -11,7 +13,7 @@ export class UserPassword {
 
   constructor(text: string) {
     if (!this.verifyPasswordLenght(text)) {
-      throw new Error(
+      throw new AppError(
         'Password must be at least 8 characters long and at most 255 characters long',
       );
     }
